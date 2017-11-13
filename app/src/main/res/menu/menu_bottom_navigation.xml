@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_news"
+        android:icon="@mipmap/ic_remember_gray"
+        android:title="记单词" />
+
+    <item
+        android:id="@+id/item_find"
+        android:icon="@mipmap/ic_home_gray"
+        android:title="主页" />
+
+    <item
+        android:id="@+id/item_more"
+        android:icon="@mipmap/ic_more_gray"
+        android:title="更多" />
+</menu>
