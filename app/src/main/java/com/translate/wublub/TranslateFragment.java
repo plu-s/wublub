@@ -1,6 +1,5 @@
 package com.translate.wublub;
 
-//import android.app.Fragment;
 import android.support.v4.app.Fragment;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -49,38 +48,33 @@ public class TranslateFragment extends Fragment{
         translateBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                switch (v.getId()){
-                    case R.id.translateBtn:
+                src = srcText.getText().toString().trim();      // 获取待翻译文本且去除首尾“空”字符
+                if (!src.isEmpty()) {
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    Cursor cursor = db.query("Words", null, "src = ?", new String[]{src}, null, null, null);
+                    if (cursor.getCount() != 0) {
                         //如果本地数据库中有所查询的单词，则不用网络查询
-                        src = srcText.getText().toString();
-                        if (!src.isEmpty()) {
-                            SQLiteDatabase db = dbHelper.getWritableDatabase();
-                            Cursor cursor = db.query("Words", null, "src = ?", new String[]{src}, null, null, null);
-                            if (cursor.getCount() != 0) {
-                                cursor.moveToFirst();
-                                translation = cursor.getString(cursor.getColumnIndex("translation"));
-                                resultText.setText(translation);
-                                cursor.close();
-                            } else {
-                                // 本地数据库中没有，则网络请求且该耗时操作必须放到子线程里面
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            OkHttpClient client = new OkHttpClient();
-                                            Request request = new Request.Builder().url(url.getUrl(srcText.getText().toString())).build();
-                                            Response response = client.newCall(request).execute();      // 返回 json 格式的数据
-                                            showTranslateResult(response.body().string());
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).start();
+                        cursor.moveToFirst();
+                        translation = cursor.getString(cursor.getColumnIndex("translation"));
+                        resultText.setText(translation);
+                        cursor.close();
+                    } else {
+                        cursor.close();
+                        // 本地数据库中没有，则网络请求且该耗时操作必须放到子线程里面
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    OkHttpClient client = new OkHttpClient();
+                                    Request request = new Request.Builder().url(url.getUrl(srcText.getText().toString())).build();
+                                    Response response = client.newCall(request).execute();      // 返回 json 格式的数据
+                                    showTranslateResult(response.body().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                        break;
-                    default:
-                        break;
+                        }).start();
+                    }
                 }
             }
         });
@@ -92,9 +86,8 @@ public class TranslateFragment extends Fragment{
         s.setSpan(textSize, 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         srcText.setHint(s);
 
-        /* 以下新建数据库RecitesWords */
+        /* 获取数据库 RecitesWords 实例*/
         dbHelper = new MyDatabaseHelper(view.getContext() , "ReciteWords.db", null, 1);
-        dbHelper.getWritableDatabase();
 
         return view;
     }

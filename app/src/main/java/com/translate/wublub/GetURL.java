@@ -6,10 +6,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
-/**
- * Created by Liang on 2017-10-21.
- */
-
 class GetURL {
 
     // 合法的 url 格式：http://openapi.youdao.com/api?q=待翻译文本&from=源语言&to=目的语言&appKey=申请到的应用ID&salt=随机数&sign=签名

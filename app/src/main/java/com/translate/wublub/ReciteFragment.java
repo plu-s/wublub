@@ -38,10 +38,7 @@ class ReciteFragment extends Fragment{
         explanation = (TextView)view.findViewById(R.id.explanation);
         Button transButton = (Button)view.findViewById(R.id.transBtn);
         Button nextButton = (Button)view.findViewById(R.id.nextBtn);
-        getCount();
-        if (count != 0) {
-            setWord();
-        }
+
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +64,16 @@ class ReciteFragment extends Fragment{
         return view;
     }
 
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getCount();
+        if (count != 0) {
+            setWord();
+        }
+    }
 
     //获取当前数据库中的数据数量
     private void getCount() {
