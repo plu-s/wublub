@@ -1,79 +1,90 @@
 package com.translate.wublub;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import java.io.IOException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import android.view.MenuItem;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity{
 
-    EditText srcText;
-    TextView resultText;
-    GetURL url = new GetURL();
-    JsonParse jsonParse = new JsonParse();
+    private ViewPager viewPager;
+    private MenuItem menuItem;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button translateBtn = (Button)findViewById(R.id.translateBtn);
-        translateBtn.setOnClickListener(this);
+        viewPager = (ViewPager)findViewById(R.id.viewpager);
+        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
 
-        srcText = (EditText)findViewById(R.id.src);
-        resultText = (TextView)findViewById(R.id.result);
-
-        /* 以下设置待翻译文本框的提示文本的字体大小 */
-        SpannableString s = new SpannableString("在此处输入要翻译的文本……");
-        AbsoluteSizeSpan textSize = new AbsoluteSizeSpan(16, true);
-        s.setSpan(textSize, 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        srcText.setHint(s);
-
-    }
-
-    @Override
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.translateBtn:
-                // 网络请求等耗时操作必须放到子线程里面
-                new Thread(new Runnable() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public void run() {
-                        try{
-                            OkHttpClient client = new OkHttpClient();
-                            Request request = new Request.Builder().url(url.getUrl(srcText.getText().toString())).build();
-                            Response response = client.newCall(request).execute();      // 返回 json 格式的数据
-                            showTranslateResult(response.body().string());
-                        }catch (IOException e){
-                            e.printStackTrace();
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_news:
+                                viewPager.setCurrentItem(0);
+                                break;
+                            case R.id.item_find:
+                                viewPager.setCurrentItem(1);
+                                break;
+                            case R.id.item_more:
+                                viewPager.setCurrentItem(2);
+                                break;
+                            default:
+                                break;
                         }
+                        return false;
                     }
-                }).start();
-                break;
-            default:
-                break;
-        }
-    }
+                });
 
-    private void showTranslateResult(final String result){
-        // 子线程无法对UI进行修改，必须切换回主线程
-        runOnUiThread(new Runnable() {
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void run() {
-                resultText.setText(jsonParse.parse(result));    // json 分析返回的翻译结果，然后显示
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (menuItem != null) {
+                    menuItem.setChecked(false);
+                } else {
+                    bottomNavigationView.getMenu().getItem(1).setChecked(false);    // 设置翻译为默认view
+                }
+                menuItem = bottomNavigationView.getMenu().getItem(position);
+                menuItem.setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
             }
         });
+
+        //禁止ViewPager滑动
+//        viewPager.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return true;
+//            }
+//        });
+
+        setupViewPager(viewPager);
     }
+
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+
+        adapter.addFragment(new TranslateFragment());
+        adapter.addFragment(new ReciteFragment());
+        adapter.addFragment(new OCRFragment());
+        viewPager.setAdapter(adapter);
+    }
+
 }

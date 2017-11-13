@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Wublub</string>
+    <string name="translateBtnText">翻译</string>
+    <string name="OCR_smile">OCR  ^ _ ^</string>
+    <string name="ReciteWordBtnText">翻译</string>
+    <string name="ReciteNextWord">下一个</string>
+
 </resources>
