@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity{
 
     private String filePath;
     Uri currentUri;
+    private Boolean networkOK = true;
 
     final static int RECITE_PAGE = 0;
     final static int TRANSLATE_PAGE = 1;
@@ -58,15 +59,24 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("【记录】", "onCreate in MainActivity");
+
         ActionBar actionbar = getSupportActionBar();
         if(actionbar != null){
             actionbar.hide();
         }
 
+        // 网络状态广播
         intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTVITY_CHANGE");
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
-        registerReceiver(networkChangeReceiver,intentFilter);
+        registerReceiver(networkChangeReceiver, intentFilter);
+
+        // 提示网络错误
+        getNetworkInfo(MainActivity.this);
+        if (!networkOK){
+            Toast.makeText(MainActivity.this,"网络已断开", Toast.LENGTH_LONG).show();
+        }
 
         viewPager = (ViewPager)findViewById(R.id.viewpager);
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
@@ -93,6 +103,11 @@ public class MainActivity extends AppCompatActivity{
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                        if (!networkOK){
+                            Toast.makeText(MainActivity.this, "网络已断开", Toast.LENGTH_SHORT).show();
+                        }
+
                         switch (item.getItemId()) {
                             case R.id.item_recite:
                                 viewPager.setCurrentItem(RECITE_PAGE);
@@ -230,6 +245,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d("【记录】", "onActivityResult in MainActivity");
+
         if (requestCode == CAMERA_CODE_FOR_RESULT || requestCode == ALBUM_CODE_FOR_RESULT){
             if (resultCode == RESULT_OK) {
                 Uri uri = null;
@@ -258,25 +275,35 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    class NetworkChangeReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent){
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-            if(networkInfo != null && networkInfo.isAvailable()){
-            }
-            else {
-                Toast.makeText(context,"当前网络不可用", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-
     @Override
     protected void onDestroy(){
         super.onDestroy();
         unregisterReceiver(networkChangeReceiver);
+    }
+
+
+    class NetworkChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent){
+            getNetworkInfo(context);
+            if (networkOK){
+                Toast.makeText(context,"网络已连接", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(context,"网络已断开", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void getNetworkInfo(Context context){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo != null && networkInfo.isAvailable()){
+            networkOK = true;
+        }
+        else {
+            networkOK = false;
+        }
     }
 
 }
