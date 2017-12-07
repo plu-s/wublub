@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include layout = "@layout/title"></include>
+
+    <android.support.percent.PercentRelativeLayout
+        app:layout_marginTopPercent="10%"
+        app:layout_heightPercent="70%"
+        app:layout_widthPercent="100%"
+        android:background="@drawable/background2"
+        >
+
+        <TextView
+            android:id="@+id/word"
+            android:layout_width="match_parent"
+            app:layout_heightPercent="20%"
+            app:layout_marginTopPercent="40%"
+            app:layout_marginLeftPercent="23%"
+            app:layout_marginRightPercent="23%"
+            android:textSize="32sp"
+            android:gravity="center"
+            android:maxLength="100"
+            android:typeface="monospace"
+            android:textColor="#ea514c"
+            />
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/buttons"
+        app:layout_marginTopPercent="80%"
+        app:layout_heightPercent="15%"
+        app:layout_widthPercent="100%"
+        android:background="#ffffff"
+        >
+
+        <Button
+            android:id="@+id/transBtn"
+            android:textSize="20sp"
+            app:layout_marginLeftPercent="5%"
+            app:layout_heightPercent="100%"
+            app:layout_widthPercent="40%"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:text="@string/ReciteWordBtnText" />
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:textSize="20sp"
+            android:background="#00000000"
+            app:layout_marginLeftPercent="55%"
+            app:layout_heightPercent="100%"
+            app:layout_widthPercent="40%"
+            android:text="@string/ReciteNextWord" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        >
+
+        <com.translate.wublub.WrappingSlidingDrawer
+            android:id="@+id/slidingdrawer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:handle="@+id/handle"
+            android:content="@+id/content">
+
+            <ImageView
+                android:id="@+id/handle"
+                android:src="@drawable/handle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shaperesult"
+                >
+
+                <TextView
+                    android:id="@+id/explanation"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textIsSelectable="true"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+        </com.translate.wublub.WrappingSlidingDrawer>
+
+    </android.support.percent.PercentRelativeLayout>
+    
+    
+</android.support.percent.PercentRelativeLayout>
