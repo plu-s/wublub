@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity{
         registerReceiver(networkChangeReceiver, intentFilter);
 
         // 提示网络错误
-        getNetworkInfo(MainActivity.this);
+        setNetworkFlag();
         if (!networkOK){
             Toast.makeText(MainActivity.this,"网络已断开", Toast.LENGTH_LONG).show();
         }
@@ -285,16 +285,14 @@ public class MainActivity extends AppCompatActivity{
     class NetworkChangeReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
-            getNetworkInfo(context);
-            if (networkOK){
-                Toast.makeText(context,"网络已连接", Toast.LENGTH_LONG).show();
-            }else{
+            setNetworkFlag();
+            if (!networkOK){
                 Toast.makeText(context,"网络已断开", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void getNetworkInfo(Context context){
+    private void setNetworkFlag(){
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
