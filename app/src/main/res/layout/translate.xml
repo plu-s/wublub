@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/relative1"
+        app:layout_marginTopPercent="10%"
+        app:layout_heightPercent="30%"
+        app:layout_widthPercent="100%"
+        android:background="@drawable/rightpic">
+
+        <EditText
+            android:id="@+id/src"
+            android:typeface="monospace"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="60%"
+            app:layout_marginLeftPercent="10%"
+            app:layout_marginTopPercent="15%"
+            android:background="@null"
+            android:textSize="32sp"
+            android:textColor="#6f6f6f"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:layout_gravity="center_horizontal"
+            android:maxLength="100"
+            android:gravity="center"
+        />
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/relative2"
+        android:layout_below="@+id/relative1"
+        app:layout_marginLeftPercent="70%"
+        app:layout_marginRightPercent="5%"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="25%">
+
+        <ImageView
+            android:id="@+id/translateBtn"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="100%"
+            android:src="@drawable/button"
+            android:clickable="true"
+            android:background="@drawable/ripple"
+            />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/relative3"
+        android:layout_below="@+id/relative2"
+        android:background="@drawable/leftpic"
+        app:layout_heightPercent="50%"
+        app:layout_widthPercent="100%"  >
+
+        <TextView
+            android:id="@+id/result"
+            app:layout_marginTopPercent="15%"
+            app:layout_marginLeftPercent="10%"
+            app:layout_marginRightPercent="10%"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="60%"
+            android:textIsSelectable="true"
+            android:textSize="20sp"
+            />
+    </android.support.percent.PercentRelativeLayout>
+
+
+</android.support.percent.PercentRelativeLayout>

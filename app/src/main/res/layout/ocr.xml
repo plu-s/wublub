@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout = "@layout/title"></include>
+
+    <ImageView
+        android:id="@+id/start"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_marginTopPercent="10%"
+        app:layout_marginLeftPercent="40%"
+        android:src="@drawable/start"
+        android:clickable="true"
+        android:background="@drawable/ripple"/>
+
+    <ImageView
+        android:id="@+id/kuohao"
+        android:layout_below="@id/start"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="8%"
+        android:src="@drawable/kuohao" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_below="@+id/kuohao"
+        app:layout_widthPercent="35%"
+        app:layout_heightPercent="25%"
+        app:layout_marginTopPercent="0%"
+        app:layout_marginLeftPercent="32%"
+        app:layout_marginRightPercent="10%"
+        android:scaleType="centerCrop"/>
+
+    <android.support.percent.PercentRelativeLayout
+        app:layout_widthPercent="82%"
+        app:layout_heightPercent="33%"
+        app:layout_marginTopPercent="3%"
+        app:layout_marginRightPercent="5%"
+        app:layout_marginLeftPercent="10%"
+        android:background="@drawable/ocrresult"
+        android:layout_below="@+id/imageView">
+
+        <TextView
+            android:id="@+id/resultText"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="80%"
+            app:layout_marginTopPercent="13%"
+            app:layout_marginBottomPercent="13%"
+            app:layout_marginLeftPercent="10%"
+            android:textIsSelectable="true"
+            android:lineSpacingExtra="6dp"
+            android:textSize="18sp" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <!-- 放大后的图像 -->
+    <ImageView
+        android:id="@+id/expanded_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:adjustViewBounds="true"
+        android:visibility="invisible"
+        />
+
+</android.support.percent.PercentRelativeLayout>

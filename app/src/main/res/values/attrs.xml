@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HighlightButtonStyle">
+        <attr name="highlight_button_img_id" format="reference" />
+        <attr name="highlight_button_height_self_adaption" format="boolean" />
+        <attr name="highlight_button_width_self_adaption" format="boolean" />
+        <attr name="highlight_button_max_animation_ratio" format="float" />
+        <attr name="highlight_button_outline_color" format="color" />
+    </declare-styleable>
+</resources>
