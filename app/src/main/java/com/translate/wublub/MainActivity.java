@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity{
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
 
         setupBttomNavigationView();
-    }
+    } // onCreate
 
 
     private static boolean isPermissionGranted(final Context context, final String permission) {

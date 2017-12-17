@@ -1,19 +1,14 @@
 package com.translate.wublub;
 
 import android.support.v4.app.Fragment;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,8 +23,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.translate.wublub.R.id.viewpager;
-
 
 public class TranslateFragment extends Fragment{
 
@@ -41,8 +34,6 @@ public class TranslateFragment extends Fragment{
     GetURL url = new GetURL();
     JsonParse jsonParse = new JsonParse();
     View view;
-    int num;
-    NUM Num = new NUM();
 
     @Nullable
     @Override
@@ -97,7 +88,7 @@ public class TranslateFragment extends Fragment{
         LitePal.getDatabase();
 
         return view;
-    }
+    } // onCreateView
 
 
     private void showTranslateResult(final String result){
@@ -110,14 +101,14 @@ public class TranslateFragment extends Fragment{
                 String translation = jsonParse.parse(result);
                 resultText.setText(translation);
 
-                LitePal.getDatabase();
-                num = Num.getNum();
+                Words word = DataSupport.findLast(Words.class);
+                int maxId = (word == null ? 0 : word.getId());
+
                 Words words = new Words();
-                words.setId(num++);
+                words.setId(++maxId);
                 words.setSrc(src);
                 words.setTranslation(translation);
                 words.save();
-                Num.setNum(num);
             }
         });
     }

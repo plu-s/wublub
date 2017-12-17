@@ -51,7 +51,6 @@
     </android.support.percent.PercentRelativeLayout>
 
     <android.support.percent.PercentRelativeLayout
-        android:id="@+id/relative3"
         android:layout_below="@+id/relative2"
         android:background="@drawable/leftpic"
         app:layout_heightPercent="50%"
